@@ -19,11 +19,11 @@ def load_image(name, colorkey=None):
 
 
 class Rectangle(pygame.sprite.Sprite):
-    def __init__(self, name_photo):
+    def __init__(self, name_photo, aspect):
         super().__init__()
         self.size = load_image(name_photo).get_size()
-        self.size_x_9 = (self.size[0] / (max(self.size) / min(self.size) * 9),
-                         self.size[1] / (max(self.size) / min(self.size) * 9))
+        self.size_x_9 = (self.size[0] / (max(self.size) / min(self.size) * aspect),
+                         self.size[1] / (max(self.size) / min(self.size) * aspect))
         self.image = pygame.transform.scale(load_image(name_photo, -1),
                                             (int(self.size_x_9[0]), int(self.size_x_9[1])))
         self.all_sprites_rectangle = pygame.sprite.Group()
