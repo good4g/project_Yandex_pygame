@@ -18,19 +18,33 @@ def load_image(name, colorkey=None):
     return image
 
 
+pygame.init()
+pygame.display.set_mode((800, 400))
+pygame.display.flip()
+res = load_image('rect.png', -1)
+
+
 class Rectangle(pygame.sprite.Sprite):
     def __init__(self, name_photo, aspect):
         super().__init__()
-        self.size = load_image(name_photo).get_size()
+        self.size = res.get_size()
+
         self.size_x_9 = (self.size[0] / (max(self.size) / min(self.size) * aspect),
                          self.size[1] / (max(self.size) / min(self.size) * aspect))
-        self.image = pygame.transform.scale(load_image(name_photo, -1),
+        self.image = pygame.transform.scale(res,
                                             (int(self.size_x_9[0]), int(self.size_x_9[1])))
-        self.all_sprites_rectangle = pygame.sprite.Group()
+
         self.sprite_rect = pygame.sprite.Sprite()
+
+        self.sprite_rect.image = self.image
+        self.sprite_rect.rect = self.image.get_rect()
+        self.all_sprites_rectangle = pygame.sprite.Group()
         self.all_sprites_rectangle.add(self.sprite_rect)
 
     def update(self, x, y):
-        self.sprite_rect.image = self.image
+        self.sprite_rect.image.get_rect().move(x, y)
         self.sprite_rect.rect = self.sprite_rect.image.get_rect().move(x, y)
+
+
+
 
